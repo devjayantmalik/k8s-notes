@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Notes | Home</title>
+  </head>
+  <body>
+    <main>
+      <section>
+        <nav>
+          <ul>
+            <li><a href="/notes">List all notes</a></li>
+          </ul>
+        </nav>
+      </section>
+
+      <section>
+        <h1>Create a new note:</h1>
+        <form action="/note" method="post" enctype="multipart/form-data">
+          <label for="title">
+            Title
+            <input id="title" name="title" placeholder="Note title" />
+          </label>
+          <label for="description">
+            Description
+            <input
+              id="description"
+              name="description"
+              placeholder="Short comment about note."
+            />
+          </label>
+
+          <label for="picture">
+            Picture
+            <input id="picture" name="picture" type="file" />
+          </label>
+
+          <button type="submit">Add new note</button>
+        </form>
+      </section>
+    </main>
+  </body>
+</html>
