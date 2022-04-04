@@ -28,6 +28,6 @@
     "resolveJsonModule": true,
     "baseUrl": "."
   },
-  "exclude": ["node_modules", "src/modules/**/__tests__", "src/modules/loadtest"],
+  "exclude": ["node_modules"],
   "include": ["src"]
 }
