@@ -22,7 +22,31 @@ const main = async (): Promise<void> => {
     process.exit(1);
   }
 
-  const conn = await db.createConnection(db_url);
+  const conn = await new Promise<db.Connection>(async (resolve, reject) => {
+    let conn: db.Connection | null = null;
+
+    const timeout = setTimeout(() => {
+      // Resolve or reject the promise based on connection established after max of 30 seconds.
+      return !!conn
+        ? resolve(conn)
+        : reject(new Error("Failed to connect to database..."));
+    }, 30000);
+
+    while (!conn) {
+      try {
+        conn = await db.createConnection(db_url);
+      } catch (err) {}
+    }
+
+    // clear timeout if executing reaches this point.
+    clearTimeout(timeout);
+    resolve(conn);
+  });
+
+  if (!conn) {
+    console.error("Database not connected...");
+    process.exit(1);
+  }
 
   // Run your migrations
   await conn.query(`CREATE TABLE IF NOT EXISTS notes(
