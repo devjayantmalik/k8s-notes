@@ -1,0 +1,39 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: notes
+spec:
+  selector:
+    app: notes
+  ports:
+    - port: 80
+      targetPort: 4000
+  type: LoadBalancer
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: notes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: notes
+  template:
+    metadata:
+      labels:
+        app: notes
+    spec:
+      containers:
+        - name: app
+          image: devjayantmalik/notes:v1
+          ports:
+            - containerPort: 4000
+          env:
+            - name: PORT
+              value: "4000"
+
+            - name: DATABASE_URL
+              value: mariadb://cloud:3d1bf1830daf0a3466cd@mariadb:3306/notes
+
+          imagePullPolicy: Always
